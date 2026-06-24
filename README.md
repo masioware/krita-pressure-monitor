@@ -21,12 +21,20 @@ A Krita docker that displays real-time stylus pressure with a circular gauge, sp
 
 ## Installation
 
-1. Download or build `pressure_monitor.zip` (see [Build](#build) below)
-2. In Krita: **Tools → Scripts → Import Python Plugin…** → select the ZIP
+**From the web (easiest):**
+
+1. In Krita: **Tools → Scripts → Import Python Plugin from Web…**
+2. Paste `https://github.com/masioware/krita-pressure-monitor` and confirm
 3. Restart Krita
 4. **Settings → Configure Krita → Python Plugin Manager** → enable **Pressure Monitor**
 5. Restart Krita again
 6. **Settings → Dockers → Pressure Monitor** to show the panel
+
+**From a ZIP file:**
+
+1. Build the ZIP: `python scripts/build.py`
+2. In Krita: **Tools → Scripts → Import Python Plugin…** → select `pressure_monitor.zip`
+3. Follow steps 3–6 above
 
 ## Build
 
