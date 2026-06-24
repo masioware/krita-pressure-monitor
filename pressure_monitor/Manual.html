@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pressure Monitor — Manual</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      max-width: 680px;
+      margin: 32px auto;
+      padding: 0 16px;
+    }
+    h1 { font-size: 1.6em; border-bottom: 1px solid currentColor; padding-bottom: 8px; opacity: 0.9; }
+    h2 { font-size: 1.15em; margin-top: 28px; }
+    code {
+      border: 1px solid currentColor;
+      border-radius: 3px;
+      padding: 1px 5px;
+      font-size: 0.92em;
+      opacity: 0.85;
+    }
+    pre {
+      border: 1px solid currentColor;
+      border-radius: 4px;
+      padding: 12px 16px;
+      overflow-x: auto;
+      opacity: 0.85;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 12px 0;
+    }
+    th, td {
+      border: 1px solid currentColor;
+      padding: 7px 12px;
+      text-align: left;
+      opacity: 0.9;
+    }
+    .note {
+      border-left: 4px solid currentColor;
+      padding: 10px 14px;
+      border-radius: 0 4px 4px 0;
+      margin: 16px 0;
+      opacity: 0.85;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Pressure Monitor</h1>
+<p>A Krita docker that shows real-time stylus pressure with a circular gauge, scrolling sparkline, peak marker, and live statistics.</p>
+
+<h2>Installation</h2>
+<ol>
+  <li>In Krita, open <strong>Tools → Scripts → Import Python Plugin…</strong></li>
+  <li>Select <code>pressure_monitor.zip</code></li>
+  <li>Restart Krita</li>
+  <li>Go to <strong>Settings → Configure Krita → Python Plugin Manager</strong> and enable <strong>Pressure Monitor</strong></li>
+  <li>Restart Krita again</li>
+  <li>Open the docker via <strong>Settings → Dockers → Pressure Monitor</strong></li>
+</ol>
+
+<h2>Interface</h2>
+
+<table>
+  <thead>
+    <tr><th>Element</th><th>Description</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Circular arc</td>
+      <td>Fills clockwise as pressure increases. Color shifts from blue (light) through purple to red (heavy).</td>
+    </tr>
+    <tr>
+      <td>Yellow dot</td>
+      <td>Marks the peak pressure reached in the current session.</td>
+    </tr>
+    <tr>
+      <td>Sparkline</td>
+      <td>Scrolling line at the bottom of the gauge showing the last 80 pressure samples.</td>
+    </tr>
+    <tr>
+      <td>Gradient bar</td>
+      <td>Thin live bar below the gauge for quick at-a-glance feedback.</td>
+    </tr>
+    <tr>
+      <td>RAW</td>
+      <td>Instantaneous raw pressure value (0.000 – 1.000).</td>
+    </tr>
+    <tr>
+      <td>PEAK</td>
+      <td>Highest pressure recorded since the last reset.</td>
+    </tr>
+    <tr>
+      <td>AVG</td>
+      <td>Rolling average of the last 80 samples where the pen was actively pressing. Samples taken while the pen is lifted are excluded.</td>
+    </tr>
+    <tr>
+      <td>↺ RESET PEAK</td>
+      <td>Clears the peak marker and resets the AVG history.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Smooth decay</h2>
+<p>When the pen is lifted, the gauge does not snap to zero immediately. It fades out over ~300 ms to make brief lifts easier to read visually. Only real pen-contact samples affect the RAW and AVG values.</p>
+
+<h2>How pressure is captured</h2>
+<p>Krita's Python API does not expose pen pressure directly. This plugin installs a <code>QTabletEvent</code> filter on the Qt application and reads <code>event.pressure()</code> (range 0.0 – 1.0) from <code>TabletPress</code>, <code>TabletMove</code>, and <code>TabletRelease</code> events. The filter is read-only — it never blocks or modifies events.</p>
+
+<div class="note">
+  <strong>Note:</strong> Pressure values depend on your tablet driver and the sensitivity curve set in Krita's <em>Settings → Configure Krita → Tablet settings</em>. The plugin reads the post-curve value as Krita sees it.
+</div>
+
+<h2>Troubleshooting</h2>
+<table>
+  <thead>
+    <tr><th>Symptom</th><th>Likely cause</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Pressure always 0%</td>
+      <td>Tablet driver not sending <code>QTabletEvent</code>. Try toggling <em>Use WinTab</em> vs <em>Windows Ink</em> in Krita's tablet settings.</td>
+    </tr>
+    <tr>
+      <td>Docker not visible</td>
+      <td>Enable the plugin in <strong>Settings → Python Plugin Manager</strong> and restart Krita, then check <strong>Settings → Dockers</strong>.</td>
+    </tr>
+    <tr>
+      <td>Krita fails to start after install</td>
+      <td>Check the Krita log for Python import errors. Run Krita from a terminal to see the traceback.</td>
+    </tr>
+  </tbody>
+</table>
+
+</body>
+</html>

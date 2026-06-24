@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Service
+ServiceTypes=Krita/PythonPlugin
+X-KDE-Library=pressure_monitor
+X-Krita-Manual=Manual.html
+Name=Pressure Monitor
+Comment=Displays real-time pen pressure with gauge, history, peak and statistics.
