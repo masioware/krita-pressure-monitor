@@ -16,7 +16,7 @@ A Krita docker that displays real-time stylus pressure with a circular gauge, sp
 
 ## Requirements
 
-- Krita 5.x (tested on 5.2+)
+- Krita 5.x (tested on 5.3+)
 - Python plugin support enabled in Krita
 
 ## Installation
