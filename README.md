@@ -1,5 +1,7 @@
 # Pressure Monitor — Krita Plugin
 
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
+
 A Krita docker that displays real-time stylus pressure with a circular gauge, sparkline history, peak marker, and live statistics.
 
 <p align="center"><img src="assets/demo.gif" width="304" alt="Pressure Monitor in action"></p>
@@ -58,3 +60,7 @@ This creates `pressure_monitor.zip` with the correct structure for Krita's plugi
 ## How pressure is read
 
 Krita's Python API does not expose pen pressure directly. This plugin installs a `QTabletEvent` filter on the application and reads `event.pressure()` (range 0.0 – 1.0) from `TabletPress`, `TabletMove`, and `TabletRelease` events. The filter never blocks events — it only observes them.
+
+## License
+
+GPL v3 or later — see [LICENSE](LICENSE). This plugin links against Krita's Python API, which is licensed under GPL v3.
