@@ -2,7 +2,7 @@
 
 A Krita docker that displays real-time stylus pressure with a circular gauge, sparkline history, peak marker, and live statistics.
 
-<img src="assets/demo.gif" width="304" alt="Pressure Monitor in action">
+<p align="center"><img src="assets/demo.gif" width="304" alt="Pressure Monitor in action"></p>
 
 ## Features
 
